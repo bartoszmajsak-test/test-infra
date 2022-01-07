@@ -3,14 +3,12 @@ kind: Ingress
 metadata:
   namespace: ${NAMESPACE}
   name: ing
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   backend:
     serviceName: deck
     servicePort: 80
   rules:
-  - host: prow.maistra.io
+  - host: patchset.io
     http:
       paths:
       - path: /
@@ -21,7 +19,3 @@ spec:
         backend:
           serviceName: hook
           servicePort: 8888
-  tls:
-  - hosts:
-    - prow.maistra.io
-    secretName: prow.maistra.io-cert

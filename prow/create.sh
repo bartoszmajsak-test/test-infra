@@ -5,7 +5,8 @@ set -ex
 NAMESPACE=${NAMESPACE:-default}
 WORKER_NS=${WORKER_NS:-test-pods}
 
-# create test-pods namespace
+# create namespaces
+kubectl create namespace "${NAMESPACE}" || echo Skipping
 kubectl create namespace "${WORKER_NS}" || echo Skipping
 
 # create configmaps
@@ -39,9 +40,9 @@ helm template --name ingress --namespace ingress \
   nginx-ingress | kubectl apply -n ingress -f -
 
 # install cert-manager
-kubectl create namespace cert-manager || echo Skipping
-kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.13.0/cert-manager.yaml
-sleep 10
+# kubectl create namespace cert-manager || echo Skipping
+# kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.13.0/cert-manager.yaml
+# sleep 10
 
 # deploy prow
 ./update.sh
